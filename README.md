@@ -22,7 +22,7 @@
 - Clickzetta Lakehouse 访问权限
 
 ### 快速开始
-1. **安装插件**: 按照 [安装指南](docs/CLICKZETTA_PLUGIN_INSTALLATION_GUIDE.md) 在Dify中安装插件
+1. **安装插件**: 按照 [安装指南](docs/DIFY_CLICKZETTA_PLUGIN_INSTALLATION_GUIDE.md) 在Dify中安装插件
 2. **配置连接**: 在插件设置中配置Clickzetta连接信息
 3. **使用工具**: 参考 [工具参考手册](docs/TOOL_REFERENCE.md) 使用各种工具
 
@@ -77,7 +77,7 @@ python tests/compatibility/test_sql_compatibility.py
 
 ## 📖 文档
 
-- [安装指南](docs/CLICKZETTA_PLUGIN_INSTALLATION_GUIDE.md) - 在Dify中安装和配置插件
+- [安装指南](docs/DIFY_CLICKZETTA_PLUGIN_INSTALLATION_GUIDE.md) - 在Dify中安装和配置插件
 - [工具参考手册](docs/TOOL_REFERENCE.md) - 详细的工具使用说明
 - [详细使用指南](docs/DETAILED_README.md) - 完整的功能和使用示例
 - [部署说明](docs/DEPLOYMENT.md) - 部署和维护指南
