@@ -99,105 +99,159 @@ export LAKEHOUSE_SCHEMA="your_schema"
 
 ## 使用工具
 
-安装和配置完成后，您可以在Dify的工作流或应用中使用以下工具：
+安装和配置完成后，您可以在Dify的工作流或应用中通过可视化界面使用以下工具：
 
 ### 1. 向量集合管理
 
 #### 创建向量集合 (vector_collection_create)
-```json
-{
-  "collection_name": "my_documents",
-  "dimension": 1536,
-  "id_type": "string",
-  "metadata_fields": "title:STRING, category:STRING",
-  "create_index": true
-}
-```
+在Dify工作流中添加此工具，可视化配置以下参数：
+- **集合名称**: `my_documents`
+- **向量维度**: `1536`
+- **ID类型**: `string`
+- **元数据字段**: `title:STRING, category:STRING`
+- **创建索引**: `是`
 
 #### 列出向量集合 (vector_collection_list)
-```json
-{
-  "schema": "dify"
-}
-```
+在Dify工作流中添加此工具，可视化配置：
+- **数据库模式**: `dify`（可选，默认为配置中的schema）
 
 #### 删除向量集合 (vector_collection_delete)
-```json
-{
-  "collection_name": "my_documents",
-  "confirm": true
-}
-```
+在Dify工作流中添加此工具，可视化配置：
+- **集合名称**: `my_documents`
+- **确认删除**: `勾选确认`
 
 ### 2. 向量数据操作
 
 #### 插入向量 (vector_insert)
-```json
-{
-  "collection_name": "my_documents",
-  "vectors": "[[0.1, 0.2, 0.3, ...], [0.4, 0.5, 0.6, ...]]",
-  "content": "[\"第一个文档内容\", \"第二个文档内容\"]",
-  "metadata": "[{\"title\": \"文档1\", \"category\": \"技术\"}, {\"title\": \"文档2\", \"category\": \"产品\"}]",
-  "ids": "[\"doc1\", \"doc2\"]",
-  "auto_id": false
-}
-```
+在Dify工作流中添加此工具，可视化配置：
+- **集合名称**: `my_documents`
+- **向量数据**: `[[0.1, 0.2, 0.3, ...], [0.4, 0.5, 0.6, ...]]`
+- **文本内容**: `["第一个文档内容", "第二个文档内容"]`
+- **元数据**: `[{"title": "文档1", "category": "技术"}, {"title": "文档2", "category": "产品"}]`
+- **ID列表**: `["doc1", "doc2"]`
+- **自动生成ID**: `否`
 
 #### 搜索向量 (vector_search)
-```json
-{
-  "collection_name": "my_documents",
-  "query_vectors": "[0.15, 0.25, 0.35, ...]",
-  "top_k": 5,
-  "metric_type": "cosine",
-  "filter_expr": "metadata['category'] = '技术'",
-  "output_fields": "title,category"
-}
-```
+在Dify工作流中添加此工具，可视化配置：
+- **集合名称**: `my_documents`
+- **查询向量**: `[0.15, 0.25, 0.35, ...]`
+- **返回数量**: `5`
+- **距离度量**: `cosine`
+- **过滤条件**: `metadata['category'] = '技术'`
+- **输出字段**: `title,category`
 
 #### 删除向量 (vector_delete)
-```json
-{
-  "collection_name": "my_documents",
-  "ids": "[\"doc1\", \"doc2\"]",
-  "filter_expr": "metadata['category'] = '过期'"
-}
-```
+在Dify工作流中添加此工具，可视化配置：
+- **集合名称**: `my_documents`
+- **要删除的ID**: `["doc1", "doc2"]`
+- **过滤条件**: `metadata['category'] = '过期'`
 
 ### 3. SQL查询
 
 #### 执行SQL查询 (lakehouse_sql_query)
-```json
-{
-  "sql": "SELECT id, page_content, metadata FROM dify.my_documents WHERE metadata['category'] = '技术' LIMIT 10",
-  "fetch_size": 1000
-}
-```
+在Dify工作流中添加此工具，可视化配置：
+- **SQL语句**: `SELECT id, page_content, metadata FROM dify.my_documents WHERE metadata['category'] = '技术' LIMIT 10`
+- **获取大小**: `1000`
 
 ## 在工作流中使用
 
 ### 1. 创建工作流
-1. 在Dify中创建新的工作流
-2. 添加工具节点
-3. 在工具列表中选择「Clickzetta Lakehouse Tools」下的相应工具
+1. **新建工作流**：在Dify中点击「创建」→「工作流」
+2. **添加工具节点**：
+   - 从左侧节点面板拖拽「工具」节点到画布
+   - 或点击「+」按钮选择「工具」
+3. **选择工具**：
+   - 在工具节点中点击「选择工具」
+   - 找到「Clickzetta Lakehouse Tools」分组
+   - 选择需要的具体工具（如「创建向量集合」）
 
 ### 2. 配置工具参数
-- 根据上述示例配置工具参数
-- 可以使用变量来动态传递参数值
+1. **填写必需参数**：
+   - 在工具节点的参数面板中填写必需参数
+   - 参数支持固定值或变量引用
+2. **使用变量**：
+   - 可以引用上游节点的输出：`{{节点名.output.字段名}}`
+   - 可以引用用户输入：`{{sys.user_input}}`
+   - 可以引用上下文变量：`{{sys.query}}`
 
-### 3. 连接工作流
-- 将工具节点连接到其他节点
-- 使用工具的输出作为后续节点的输入
+### 3. 连接工作流节点
+1. **连接输入**：
+   - 将上游节点的输出连接到工具节点的输入
+   - 例如：文本嵌入节点的输出连接到向量插入工具
+2. **处理输出**：
+   - 工具节点的输出可以连接到下游节点
+   - 输出包含工具返回的JSON数据和文本描述
+
+### 4. 可视化操作步骤
+
+#### 添加Clickzetta工具到工作流：
+1. **拖拽工具节点**：从左侧工具面板拖拽「工具」到画布
+2. **选择工具**：
+   - 点击工具节点
+   - 在右侧面板点击「选择工具」
+   - 在工具列表中找到「Clickzetta Lakehouse Tools」
+   - 选择具体工具（如「Insert Vectors」）
+3. **配置参数**：
+   - 在右侧参数面板填写工具参数
+   - 参数可以是固定值或变量引用
+4. **连接节点**：
+   - 拖拽连接线将节点连接起来
+   - 确保数据流向正确
+
+#### 参数配置技巧：
+- **使用变量**：`{{上游节点.output.字段名}}`
+- **JSON数组格式**：向量和元数据需要JSON数组格式
+- **字符串转换**：可以使用代码节点转换数据格式
+
+### 5. 实际使用示例
+
+#### 示例1：文档向量化存储工作流
+```
+开始 → 文档解析 → 文本分块 → 向量嵌入 → 向量插入(Clickzetta) → 结束
+```
+
+#### 示例2：智能问答工作流
+```
+开始 → 问题嵌入 → 向量搜索(Clickzetta) → 内容提取 → LLM问答 → 结束
+```
+
+#### 示例3：知识库管理工作流
+```
+开始 → 列出集合(Clickzetta) → 条件判断 → 创建集合(Clickzetta) → 结束
+```
 
 ## 在应用中使用
 
 ### 1. 聊天应用
-- 在聊天应用的工具配置中启用Clickzetta工具
-- 用户可以通过自然语言触发向量搜索和数据操作
+1. **启用工具**：
+   - 在聊天应用的「工具」设置中启用Clickzetta工具
+   - 选择需要的具体工具（建议选择搜索相关工具）
+2. **用户交互**：
+   - 用户可以通过自然语言触发向量搜索："帮我搜索关于AI的文档"
+   - 系统会自动调用向量搜索工具并返回结果
+3. **推荐工具**：
+   - `vector_search` - 用于知识检索
+   - `lakehouse_sql_query` - 用于数据查询
 
-### 2. Agent应用
-- 为Agent配置Clickzetta工具权限
-- Agent可以自动使用这些工具进行知识检索和数据处理
+### 2. Agent应用  
+1. **配置Agent权限**：
+   - 为Agent配置Clickzetta工具的使用权限
+   - Agent可以访问所有7个工具
+2. **自动化处理**：
+   - Agent可以自动判断何时使用哪个工具
+   - 例如：自动创建集合、插入数据、搜索信息
+3. **使用场景**：
+   - 知识库管理Agent
+   - 数据分析Agent
+   - 智能问答Agent
+
+### 3. 工作流应用
+1. **集成到工作流**：
+   - 将Clickzetta工具集成到复杂的工作流中
+   - 与其他节点（如LLM、文本处理等）协同工作
+2. **批量处理**：
+   - 支持批量文档处理和向量化存储
+   - 自动化的数据管理流程
 
 ## 常见问题
 
