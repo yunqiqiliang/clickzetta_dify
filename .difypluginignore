@@ -1,0 +1,37 @@
+# Ignore sensitive files and directories
+
+# Environment files with credentials
+.env
+.env.*
+*.env
+
+# Test files that might contain credentials
+test_*.py
+tests/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+
+# Distribution
+dist/
+build/
+*.egg-info/
+
+# Documentation
+TEST_REPORT.md

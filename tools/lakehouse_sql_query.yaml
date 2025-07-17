@@ -1,0 +1,63 @@
+identity:
+  name: lakehouse_sql_query
+  author: Clickzetta
+  label:
+    en_US: Lakehouse SQL Query
+    zh_Hans: Lakehouse SQL 查询
+    pt_BR: Lakehouse SQL Query
+  description:
+    en_US: Lakehouse SQL Query
+    zh_Hans: Lakehouse SQL 查询
+  icon: icon.svg
+description:
+  human:
+    en_US: Execute SQL queries on Clickzetta Lakehouse and retrieve results
+    zh_Hans: 在 Clickzetta Lakehouse 上执行 SQL 查询并获取结果
+    pt_BR: Execute SQL queries on Clickzetta Lakehouse and retrieve results
+  llm: Execute SQL queries on Clickzetta Lakehouse database. Supports SELECT, INSERT,
+    UPDATE, DELETE and DDL operations. Returns query results in structured format.
+parameters:
+- name: query
+  type: string
+  required: true
+  label:
+    en_US: SQL Query
+    zh_Hans: SQL 查询语句
+    pt_BR: SQL Query
+  human_description:
+    en_US: The SQL query to execute
+    zh_Hans: 要执行的 SQL 查询语句
+    pt_BR: The SQL query to execute
+  llm_description: The SQL query to execute on Lakehouse
+  form: llm
+- name: max_rows
+  type: number
+  required: false
+  default: 100
+  label:
+    en_US: Max Rows
+    zh_Hans: 最大行数
+    pt_BR: Max Rows
+  human_description:
+    en_US: 'Maximum number of rows to return (default: 100)'
+    zh_Hans: 返回的最大行数（默认：100）
+    pt_BR: 'Maximum number of rows to return (default: 100)'
+  llm_description: Maximum number of rows to return from the query result
+  form: form
+- name: timeout
+  type: number
+  required: false
+  default: 120
+  label:
+    en_US: Query Timeout
+    zh_Hans: 查询超时
+    pt_BR: Query Timeout
+  human_description:
+    en_US: 'Query timeout in seconds (default: 120)'
+    zh_Hans: 查询超时时间（秒，默认：120）
+    pt_BR: 'Query timeout in seconds (default: 120)'
+  llm_description: Query execution timeout in seconds
+  form: form
+extra:
+  python:
+    source: tools/lakehouse_sql_query.py

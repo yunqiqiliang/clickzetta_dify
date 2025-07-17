@@ -1,0 +1,42 @@
+identity:
+  name: "vector_collection_delete"
+  author: "Clickzetta"
+  label:
+    en_US: "Delete Vector Collection"
+    zh_Hans: "删除向量集合"
+  description:
+    en_US: "Delete a vector collection from Lakehouse"
+    zh_Hans: "从 Lakehouse 中删除向量集合"
+  icon: "icon.svg"
+description:
+  human:
+    en_US: "Delete a vector collection (table) and all its data from Lakehouse. This operation is irreversible."
+    zh_Hans: "从 Lakehouse 中删除向量集合（表）及其所有数据。此操作不可逆。"
+  llm: "Delete a vector collection and all associated data. This will drop the table and any indexes. Operation cannot be undone."
+parameters:
+  - name: collection_name
+    type: string
+    required: true
+    label:
+      en_US: Collection Name
+      zh_Hans: 集合名称
+    human_description:
+      en_US: "Name of the vector collection to delete"
+      zh_Hans: "要删除的向量集合名称"
+    llm_description: "The name of the vector collection (table) to delete"
+    form: llm
+  - name: confirm
+    type: boolean
+    required: false
+    default: false
+    label:
+      en_US: Confirm Deletion
+      zh_Hans: 确认删除
+    human_description:
+      en_US: "Set to true to confirm deletion (safety check)"
+      zh_Hans: "设置为 true 确认删除（安全检查）"
+    llm_description: "Must be set to true to confirm the deletion operation"
+    form: form
+extra:
+  python:
+    source: tools/vector_collection_delete.py

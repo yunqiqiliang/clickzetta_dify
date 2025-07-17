@@ -1,0 +1,54 @@
+identity:
+  name: vector_delete
+  author: Clickzetta
+  label:
+    en_US: Delete Vectors
+    zh_Hans: 删除向量
+  description:
+    en_US: Delete Vectors
+    zh_Hans: 删除向量
+  icon: icon.svg
+description:
+  human:
+    en_US: Delete vectors from a Lakehouse collection by IDs or filter
+    zh_Hans: 通过 ID 或过滤条件从 Lakehouse 集合中删除向量
+  llm: Delete vectors from a collection using either a list of IDs or a filter expression.
+    Cannot use both at the same time.
+parameters:
+- name: collection_name
+  type: string
+  required: true
+  label:
+    en_US: Collection Name
+    zh_Hans: 集合名称
+  human_description:
+    en_US: Name of the collection to delete vectors from
+    zh_Hans: 要删除向量的集合名称
+  llm_description: The collection name to delete vectors from
+  form: llm
+- name: ids
+  type: string
+  required: false
+  label:
+    en_US: IDs to Delete
+    zh_Hans: 要删除的 ID
+  human_description:
+    en_US: List of IDs to delete (JSON array)
+    zh_Hans: 要删除的 ID 列表（JSON 数组）
+  llm_description: List of vector IDs to delete. Cannot be used with filter_expr
+  form: llm
+- name: filter_expr
+  type: string
+  required: false
+  label:
+    en_US: Filter Expression
+    zh_Hans: 过滤表达式
+  human_description:
+    en_US: SQL WHERE clause to filter vectors to delete
+    zh_Hans: 用于过滤要删除向量的 SQL WHERE 子句
+  llm_description: Filter expression to select vectors for deletion. Cannot be used
+    with ids
+  form: llm
+extra:
+  python:
+    source: tools/vector_delete.py

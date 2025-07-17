@@ -1,0 +1,100 @@
+identity:
+  name: vector_search
+  author: Clickzetta
+  label:
+    en_US: Vector Search
+    zh_Hans: 向量搜索
+  description:
+    en_US: Vector Search
+    zh_Hans: 向量搜索
+  icon: icon.svg
+description:
+  human:
+    en_US: Search for similar vectors in a Lakehouse collection
+    zh_Hans: 在 Lakehouse 集合中搜索相似向量
+  llm: Perform vector similarity search with optional filtering. Supports batch queries
+    and returns top-k most similar results.
+parameters:
+- name: collection_name
+  type: string
+  required: true
+  label:
+    en_US: Collection Name
+    zh_Hans: 集合名称
+  human_description:
+    en_US: Name of the collection to search in
+    zh_Hans: 要搜索的集合名称
+  llm_description: The collection name to search vectors in
+  form: llm
+- name: query_vectors
+  type: string
+  required: true
+  label:
+    en_US: Query Vectors
+    zh_Hans: 查询向量
+  human_description:
+    en_US: Query vectors as JSON array
+    zh_Hans: JSON 数组格式的查询向量
+  llm_description: Query vector(s) to search for. Can be single vector [0.1, 0.2,
+    ...] or multiple vectors [[...], [...]]
+  form: llm
+- name: top_k
+  type: number
+  required: false
+  default: 10
+  label:
+    en_US: Top K
+    zh_Hans: 返回数量
+  human_description:
+    en_US: Number of most similar results to return
+    zh_Hans: 返回最相似的结果数量
+  llm_description: Number of nearest neighbors to return
+  form: form
+- name: metric_type
+  type: select
+  required: false
+  default: cosine
+  options:
+  - value: l2
+    label:
+      en_US: L2 Distance
+      zh_Hans: L2 距离
+  - value: cosine
+    label:
+      en_US: Cosine Distance
+      zh_Hans: 余弦距离
+  label:
+    en_US: Metric Type
+    zh_Hans: 距离度量
+  human_description:
+    en_US: Distance metric for similarity
+    zh_Hans: 相似度的距离度量
+  llm_description: 'Distance metric: ''l2'' for Euclidean or ''cosine'' for cosine
+    similarity'
+  form: form
+- name: filter_expr
+  type: string
+  required: false
+  label:
+    en_US: Filter Expression
+    zh_Hans: 过滤表达式
+  human_description:
+    en_US: SQL WHERE clause to filter results
+    zh_Hans: 用于过滤结果的 SQL WHERE 子句
+  llm_description: Optional filter expression using metadata fields (e.g., "metadata['category']
+    = 'electronics'")
+  form: llm
+- name: output_fields
+  type: string
+  required: false
+  label:
+    en_US: Output Fields
+    zh_Hans: 输出字段
+  human_description:
+    en_US: Additional fields to return (comma-separated)
+    zh_Hans: 要返回的额外字段（逗号分隔）
+  llm_description: Comma-separated list of additional fields to include in results
+  form: form
+extra:
+  python:
+    source: tools/vector_search.py

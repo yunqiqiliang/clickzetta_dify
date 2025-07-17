@@ -1,0 +1,20 @@
+identity:
+  name: vector_collection_list
+  author: Clickzetta
+  label:
+    en_US: List Vector Collections
+    zh_Hans: 列出向量集合
+  description:
+    en_US: List Vector Collections
+    zh_Hans: 列出向量集合
+  icon: icon.svg
+description:
+  human:
+    en_US: List all vector collections in the Lakehouse
+    zh_Hans: 列出 Lakehouse 中的所有向量集合
+  llm: List all tables that contain vector columns, showing their dimensions, vector
+    counts, and index status.
+parameters:
+extra:
+  python:
+    source: tools/vector_collection_list.py

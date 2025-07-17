@@ -1,0 +1,89 @@
+identity:
+  name: vector_insert
+  author: Clickzetta
+  label:
+    en_US: Insert Vectors
+    zh_Hans: 插入向量
+  description:
+    en_US: Insert Vectors
+    zh_Hans: 插入向量
+  icon: icon.svg
+description:
+  human:
+    en_US: Insert vectors with metadata into a Lakehouse collection
+    zh_Hans: 向 Lakehouse 集合中插入向量和元数据
+  llm: Insert one or multiple vectors into a vector collection. Supports auto-generated
+    IDs and custom metadata for each vector.
+parameters:
+- name: collection_name
+  type: string
+  required: true
+  label:
+    en_US: Collection Name
+    zh_Hans: 集合名称
+  human_description:
+    en_US: Name of the collection to insert vectors into
+    zh_Hans: 要插入向量的集合名称
+  llm_description: The target collection name for vector insertion
+  form: llm
+- name: vectors
+  type: string
+  required: true
+  label:
+    en_US: Vectors
+    zh_Hans: 向量数据
+  human_description:
+    en_US: Vector data as JSON array (e.g., [[0.1, 0.2, ...], [0.3, 0.4, ...]])
+    zh_Hans: JSON 数组格式的向量数据（如 [[0.1, 0.2, ...], [0.3, 0.4, ...]]）
+  llm_description: Vector embeddings to insert. Can be a single vector [0.1, 0.2,
+    ...] or multiple vectors [[...], [...]]
+  form: llm
+- name: ids
+  type: string
+  required: false
+  label:
+    en_US: IDs
+    zh_Hans: ID 列表
+  human_description:
+    en_US: IDs for the vectors (optional if auto_id is true)
+    zh_Hans: 向量的 ID 列表（如果 auto_id 为 true 则可选）
+  llm_description: List of IDs corresponding to each vector. Can be strings or numbers
+  form: llm
+- name: metadata
+  type: string
+  required: false
+  label:
+    en_US: Metadata
+    zh_Hans: 元数据
+  human_description:
+    en_US: Metadata as JSON object or array of objects
+    zh_Hans: JSON 对象或对象数组格式的元数据
+  llm_description: Metadata for vectors. Single object applies to all vectors, or
+    array of objects for each vector
+  form: llm
+- name: content
+  type: string
+  required: true
+  label:
+    en_US: Content
+    zh_Hans: 内容
+  human_description:
+    en_US: Text content corresponding to each vector
+    zh_Hans: 对应每个向量的文本内容
+  llm_description: Text content for each vector. Can be a single string or array of strings
+  form: llm
+- name: auto_id
+  type: boolean
+  required: false
+  default: false
+  label:
+    en_US: Auto Generate IDs
+    zh_Hans: 自动生成 ID
+  human_description:
+    en_US: Whether to automatically generate UUIDs for vectors
+    zh_Hans: 是否为向量自动生成 UUID
+  llm_description: If true, automatically generates UUID for each vector
+  form: form
+extra:
+  python:
+    source: tools/vector_insert.py

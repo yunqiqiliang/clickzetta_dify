@@ -1,0 +1,49 @@
+version: 0.0.1
+type: plugin
+author: qiliang
+name: clickzetta_dify
+label:
+  en_US: Clickzetta Lakehouse Tools
+  ja_JP: Clickzetta Lakehouse Tools
+  zh_Hans: Clickzetta Lakehouse Tools
+  pt_BR: Clickzetta Lakehouse Tools
+description:
+  en_US: Clickzetta Lakehouse plugin tools for Dify - vector database operations and SQL queries
+  ja_JP: Dify 用の Clickzetta Lakehouse プラグインツール - ベクターデータベース操作とSQLクエリ
+  zh_Hans: 以插件方式提供Clickzetta Lakehouse的Dify工具 - 向量数据库操作和SQL查询
+  pt_BR: Ferramentas do plugin Clickzetta Lakehouse para Dify - operações de banco de dados vetorial e consultas SQL
+icon: icon.svg
+resource:
+  memory: 268435456
+  permission:
+    tool:
+      enabled: true
+    model:
+      enabled: true
+      llm: true
+      text_embedding: true
+      rerank: true
+      tts: true
+      speech2text: true
+      moderation: true
+    endpoint:
+      enabled: true
+    app:
+      enabled: true
+plugins:
+  tools:
+    - provider/lakehouse.yaml
+meta:
+  version: 0.0.1
+  arch:
+    - amd64
+    - arm64
+  runner:
+    language: python
+    version: "3.11"
+    entrypoint: main
+  minimum_dify_version: null
+created_at: 2025-07-16T16:44:13.288761+08:00
+privacy: PRIVACY.md
+repo: https://github.com/yunqiqiliang/clickzetta_dify
+verified: false

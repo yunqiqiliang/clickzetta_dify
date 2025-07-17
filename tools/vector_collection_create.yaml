@@ -1,0 +1,86 @@
+identity:
+  name: "vector_collection_create"
+  author: "Clickzetta"
+  label:
+    en_US: "Create Vector Collection"
+    zh_Hans: "创建向量集合"
+  description:
+    en_US: "Create a new vector collection in Lakehouse"
+    zh_Hans: "在 Lakehouse 中创建新的向量集合"
+  icon: "icon.svg"
+description:
+  human:
+    en_US: "Create a new vector collection (table) in Lakehouse for storing embeddings"
+    zh_Hans: "在 Lakehouse 中创建新的向量集合（表）用于存储嵌入向量"
+  llm: "Create a vector collection with specified dimension and optional metadata fields. Automatically creates HNSW index for vector similarity search."
+parameters:
+  - name: collection_name
+    type: string
+    required: true
+    label:
+      en_US: Collection Name
+      zh_Hans: 集合名称
+    human_description:
+      en_US: "Name of the vector collection to create"
+      zh_Hans: "要创建的向量集合名称"
+    llm_description: "The name of the vector collection (table) to create"
+    form: llm
+  - name: dimension
+    type: number
+    required: true
+    default: 384
+    label:
+      en_US: Vector Dimension
+      zh_Hans: 向量维度
+    human_description:
+      en_US: "Dimension of the vectors (e.g., 384, 768, 1536)"
+      zh_Hans: "向量的维度（如 384、768、1536）"
+    llm_description: "The dimension of vectors to be stored in this collection"
+    form: llm
+  - name: id_type
+    type: select
+    required: false
+    default: "string"
+    options:
+      - value: "string"
+        label:
+          en_US: "String ID"
+          zh_Hans: "字符串 ID"
+      - value: "bigint"
+        label:
+          en_US: "BigInt ID"
+          zh_Hans: "长整型 ID"
+    label:
+      en_US: ID Type
+      zh_Hans: ID 类型
+    human_description:
+      en_US: "Data type for the ID field"
+      zh_Hans: "ID 字段的数据类型"
+    llm_description: "The data type for document IDs: 'string' or 'bigint'"
+    form: form
+  - name: metadata_fields
+    type: string
+    required: false
+    label:
+      en_US: Metadata Fields
+      zh_Hans: 元数据字段
+    human_description:
+      en_US: "Additional fields (e.g., 'title:STRING, category:STRING, price:DOUBLE')"
+      zh_Hans: "额外的字段（如 'title:STRING, category:STRING, price:DOUBLE'）"
+    llm_description: "Comma-separated list of additional fields with their types"
+    form: llm
+  - name: create_index
+    type: boolean
+    required: false
+    default: true
+    label:
+      en_US: Create Index
+      zh_Hans: 创建索引
+    human_description:
+      en_US: "Whether to create HNSW index for vector search"
+      zh_Hans: "是否创建 HNSW 索引用于向量搜索"
+    llm_description: "Whether to automatically create HNSW index on the vector column"
+    form: form
+extra:
+  python:
+    source: tools/vector_collection_create.py

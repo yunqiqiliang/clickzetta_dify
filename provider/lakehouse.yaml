@@ -1,0 +1,91 @@
+identity:
+  author: "Clickzetta"
+  name: "lakehouse"
+  label:
+    en_US: "Clickzetta Lakehouse"
+    zh_Hans: "云器 Lakehouse"
+    pt_BR: "Clickzetta Lakehouse"
+  description:
+    en_US: "Clickzetta Lakehouse vector database and SQL tools"
+    zh_Hans: "云器 Lakehouse 向量数据库和 SQL 工具"
+    pt_BR: "Banco de dados vetorial e ferramentas SQL Clickzetta Lakehouse"
+  icon: "icon.svg"
+credentials_for_provider:
+  username:
+    type: text-input
+    required: true
+    label:
+      en_US: Username
+      zh_Hans: 用户名
+    placeholder:
+      en_US: Enter your Lakehouse username
+      zh_Hans: 输入你的 Lakehouse 用户名
+  password:
+    type: secret-input
+    required: true
+    label:
+      en_US: Password
+      zh_Hans: 密码
+    placeholder:
+      en_US: Enter your Lakehouse password
+      zh_Hans: 输入你的 Lakehouse 密码
+  instance:
+    type: text-input
+    required: true
+    label:
+      en_US: Instance ID
+      zh_Hans: 实例 ID
+    placeholder:
+      en_US: Enter your Lakehouse instance ID
+      zh_Hans: 输入你的 Lakehouse 实例 ID
+  service:
+    type: text-input
+    required: true
+    default: api.clickzetta.com
+    label:
+      en_US: Service Endpoint
+      zh_Hans: 服务端点
+    placeholder:
+      en_US: Enter service endpoint (e.g. api.clickzetta.com)
+      zh_Hans: 输入服务端点（例如 api.clickzetta.com）
+  workspace:
+    type: text-input
+    required: true
+    default: default
+    label:
+      en_US: Workspace
+      zh_Hans: 工作空间
+    placeholder:
+      en_US: Enter workspace name
+      zh_Hans: 输入工作空间名称
+  vcluster:
+    type: text-input
+    required: true
+    default: default_ap
+    label:
+      en_US: Virtual Cluster
+      zh_Hans: 虚拟集群
+    placeholder:
+      en_US: Enter virtual cluster name
+      zh_Hans: 输入虚拟集群名称
+  schema:
+    type: text-input
+    required: true
+    default: public
+    label:
+      en_US: Schema
+      zh_Hans: 模式
+    placeholder:
+      en_US: Enter schema name
+      zh_Hans: 输入模式名称
+tools:
+  - tools/lakehouse_sql_query.yaml
+  - tools/vector_collection_create.yaml
+  - tools/vector_collection_delete.yaml
+  - tools/vector_collection_list.yaml
+  - tools/vector_delete.yaml
+  - tools/vector_insert.yaml
+  - tools/vector_search.yaml
+extra:
+  python:
+    source: provider/lakehouse.py
