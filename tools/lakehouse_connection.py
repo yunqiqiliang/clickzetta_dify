@@ -31,9 +31,9 @@ class LakehouseConnection:
                 "password": config.get("password") or os.getenv("LAKEHOUSE_PASSWORD"),
                 "instance": config.get("instance") or os.getenv("LAKEHOUSE_INSTANCE"),
                 "service": config.get("service", "api.clickzetta.com"),
-                "workspace": config.get("workspace", "default"),
+                "workspace": config.get("workspace", "quick_start"),
                 "vcluster": config.get("vcluster", "default_ap"),
-                "schema": config.get("schema", "public"),
+                "schema": config.get("schema", "dify"),
             }
             
             # 验证必需参数

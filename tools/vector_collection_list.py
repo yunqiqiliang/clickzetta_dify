@@ -12,7 +12,7 @@ class VectorCollectionListTool(Tool):
     def _invoke(self, tool_parameters: dict[str, Any]) -> Generator[ToolInvokeMessage]:
         # 获取连接配置
         config = self._get_connection_config(tool_parameters)
-        schema = config.get("schema", "public")
+        schema = config.get("schema", "dify")
         
         try:
             # 获取连接
@@ -157,7 +157,7 @@ class VectorCollectionListTool(Tool):
             "password": tool_parameters.get("password") or self.runtime.credentials.get("password"),
             "instance": tool_parameters.get("instance") or self.runtime.credentials.get("instance"),
             "service": tool_parameters.get("service") or self.runtime.credentials.get("service", "api.clickzetta.com"),
-            "workspace": tool_parameters.get("workspace") or self.runtime.credentials.get("workspace", "default"),
+            "workspace": tool_parameters.get("workspace") or self.runtime.credentials.get("workspace", "quick_start"),
             "vcluster": tool_parameters.get("vcluster") or self.runtime.credentials.get("vcluster", "default_ap"),
-            "schema": tool_parameters.get("schema") or self.runtime.credentials.get("schema", "public"),
+            "schema": tool_parameters.get("schema") or self.runtime.credentials.get("schema", "dify"),
         }

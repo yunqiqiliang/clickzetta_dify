@@ -103,7 +103,7 @@ class LakehouseSQLQueryTool(Tool):
             "password": tool_parameters.get("password") or self.runtime.credentials.get("password"),
             "instance": tool_parameters.get("instance") or self.runtime.credentials.get("instance"),
             "service": tool_parameters.get("service") or self.runtime.credentials.get("service", "api.clickzetta.com"),
-            "workspace": tool_parameters.get("workspace") or self.runtime.credentials.get("workspace", "default"),
+            "workspace": tool_parameters.get("workspace") or self.runtime.credentials.get("workspace", "quick_start"),
             "vcluster": tool_parameters.get("vcluster") or self.runtime.credentials.get("vcluster", "default_ap"),
-            "schema": tool_parameters.get("schema") or self.runtime.credentials.get("schema", "public"),
+            "schema": tool_parameters.get("schema") or self.runtime.credentials.get("schema", "dify"),
         }
