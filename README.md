@@ -26,7 +26,6 @@
 1. **下载插件包**: 从本项目下载 `clickzetta_lakehouse.difypkg` 文件
    - 方法一：直接点击项目页面中的 `clickzetta_lakehouse.difypkg` 文件，然后点击 "Download" 按钮
    - 方法二：使用Git命令克隆整个项目：`git clone https://github.com/yunqiqiliang/clickzetta_dify.git`
-   - 方法三：点击项目页面右上角的 "Code" → "Download ZIP" 下载整个项目压缩包
 2. **安装到Dify**: 
    - 登录 Dify 管理后台
    - 进入 "插件" → "安装插件" 页面
