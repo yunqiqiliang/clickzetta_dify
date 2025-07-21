@@ -26,16 +26,6 @@
 2. **配置连接**: 在插件设置中配置Clickzetta连接信息
 3. **使用工具**: 参考 [工具参考手册](docs/TOOL_REFERENCE.md) 使用各种工具
 
-### 配置环境变量
-```bash
-export LAKEHOUSE_USERNAME="your_username"
-export LAKEHOUSE_PASSWORD="your_password"
-export LAKEHOUSE_INSTANCE="your_instance_id"
-export LAKEHOUSE_SERVICE="api.clickzetta.com"
-export LAKEHOUSE_WORKSPACE="your_workspace"
-export LAKEHOUSE_VCLUSTER="your_vcluster"
-export LAKEHOUSE_SCHEMA="your_schema"
-```
 
 ## 🛠️ 开发
 
