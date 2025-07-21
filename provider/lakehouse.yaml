@@ -1,14 +1,14 @@
 identity:
-  author: "Clickzetta"
-  name: "lakehouse"
+  author: "qiliang"
+  name: "clickzetta_lakehouse"
   label:
-    en_US: "Clickzetta Lakehouse"
+    en_US: "ClickZetta Lakehouse"
     zh_Hans: "云器 Lakehouse"
     pt_BR: "Clickzetta Lakehouse"
   description:
-    en_US: "Clickzetta Lakehouse vector database and SQL tools"
+    en_US: "ClickZetta Lakehouse vector database and SQL tools"
     zh_Hans: "云器 Lakehouse 向量数据库和 SQL 工具"
-    pt_BR: "Banco de dados vetorial e ferramentas SQL Clickzetta Lakehouse"
+    pt_BR: "Banco de dados vetorial e ferramentas SQL ClickZetta Lakehouse"
   icon: "icon.svg"
 credentials_for_provider:
   username:
