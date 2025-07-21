@@ -21,7 +21,20 @@
 - Dify 平台
 - Clickzetta Lakehouse 访问权限
 
-### 快速开始
+### 快速安装
+
+#### 方式一：使用预构建插件包（推荐）
+1. **下载插件包**: 从本项目下载 `clickzetta_lakehouse.difypkg` 文件
+2. **安装到Dify**: 
+   - 登录 Dify 管理后台
+   - 进入 "插件" → "安装插件" 页面
+   - 选择 "本地上传" 方式
+   - 上传 `clickzetta_lakehouse.difypkg` 文件
+   - 等待安装完成
+3. **配置插件**: 在插件设置中配置 Clickzetta 连接参数（用户名、密码、实例等）
+4. **开始使用**: 插件安装成功后即可在工作流中使用所有Clickzetta工具
+
+#### 方式二：开发者安装
 1. **安装插件**: 按照 [安装指南](docs/DIFY_CLICKZETTA_PLUGIN_INSTALLATION_GUIDE.md) 在Dify中安装插件
 2. **配置连接**: 在插件设置中配置Clickzetta连接信息
 3. **使用工具**: 参考 [工具参考手册](docs/TOOL_REFERENCE.md) 使用各种工具
