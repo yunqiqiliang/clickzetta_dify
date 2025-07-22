@@ -23,8 +23,12 @@
 
 ### 快速安装
 
-1. **下载插件包**: 从本项目下载 `clickzetta_lakehouse.difypkg` 文件
-   - 方法一：直接点击项目页面中的 `clickzetta_lakehouse.difypkg` 文件，然后点击 "Download" 按钮
+1. **下载插件包**: 从本项目下载插件文件
+   - **生产环境（推荐）**: 下载 `clickzetta_lakehouse.signed.difypkg` - 带数字签名，适合启用签名验证的环境
+   - **开发环境**: 下载 `clickzetta_lakehouse.difypkg` - 无签名版本，需要设置 `FORCE_VERIFYING_SIGNATURE=false`
+   
+   **下载方法**：
+   - 方法一：直接点击项目页面中的插件文件，然后点击 "Download" 按钮
    - 方法二：使用Git命令克隆整个项目：`git clone https://github.com/yunqiqiliang/clickzetta_dify.git`
 2. **安装到Dify**: 
    - 登录 Dify 管理后台
