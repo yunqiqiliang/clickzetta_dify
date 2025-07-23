@@ -1,16 +1,17 @@
 #!/bin/bash
 
-# ClickZetta Dify Plugin - 快速构建脚本
-# 简化版本，适合日常开发使用
+# ClickZetta Dify Plugin - 官方标准构建脚本
+# 按照Dify官方插件标准构建，无需签名验证
 
 set -e
 
 # 颜色输出
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
+YELLOW='\033[1;33m'
 NC='\033[0m'
 
-echo -e "${BLUE}🔧 构建 ClickZetta Dify Plugin...${NC}"
+echo -e "${BLUE}🔧 构建 ClickZetta Dify Plugin (官方标准)...${NC}"
 
 # 验证配置文件
 echo "验证配置文件..."
@@ -22,17 +23,21 @@ else
     exit 1
 fi
 
+# 检查manifest.yaml是否符合官方标准
+echo "检查官方标准配置..."
+if grep -q "verified: false" manifest.yaml; then
+    echo "✅ manifest.yaml 符合官方标准 (verified: false)"
+else
+    echo -e "${YELLOW}⚠️  建议在manifest.yaml中设置 verified: false${NC}"
+fi
+
 # 清理旧文件
 echo "清理旧文件..."
-rm -f clickzetta_lakehouse.difypkg clickzetta_lakehouse.signed.difypkg
+rm -f *.difypkg
 
-# 构建无签名版本
-echo "构建无签名版本..."
+# 构建官方标准版本
+echo "构建官方标准插件包..."
 dify plugin package . -o clickzetta_lakehouse.difypkg
-
-# 生成签名版本
-echo "生成签名版本..."
-python3 scripts/sign_plugin.py sign clickzetta_lakehouse.difypkg
 
 # 显示结果
 echo
@@ -41,5 +46,7 @@ echo
 echo "生成的文件："
 ls -lh *.difypkg
 echo
-echo "📦 无签名版本: clickzetta_lakehouse.difypkg (开发环境)"
-echo "🔐 签名版本:   clickzetta_lakehouse.signed.difypkg (生产环境)"
+echo -e "${GREEN}📦 官方标准版本: clickzetta_lakehouse.difypkg${NC}"
+echo "   ▶ 遵循Dify官方插件标准"
+echo "   ▶ 无需签名验证配置"
+echo "   ▶ 适用于所有环境"

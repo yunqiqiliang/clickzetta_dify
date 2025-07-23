@@ -19,17 +19,11 @@ resource:
     tool:
       enabled: true
     model:
-      enabled: true
-      llm: true
-      text_embedding: true
-      rerank: true
-      tts: true
-      speech2text: true
-      moderation: true
+      enabled: false
     endpoint:
-      enabled: true
+      enabled: false
     app:
-      enabled: true
+      enabled: false
 plugins:
   tools:
     - provider/lakehouse.yaml
@@ -43,7 +37,7 @@ meta:
     version: "3.11"
     entrypoint: main
   minimum_dify_version: null
-created_at: 2025-07-16T16:44:13.288761+08:00
+created_at: 2025-07-23T17:51:00.000000+08:00
 privacy: PRIVACY.md
 repo: https://github.com/yunqiqiliang/clickzetta_dify
-verified: true
+verified: false
