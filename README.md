@@ -23,34 +23,61 @@
 
 ### 快速安装
 
-1. **下载插件包**: 从本项目下载插件文件
-   - **生产环境（推荐）**: 下载 `clickzetta_lakehouse.signed.difypkg` - 带数字签名，适合启用签名验证的环境
-   - **开发环境**: 下载 `clickzetta_lakehouse.difypkg` - 无签名版本，需要设置 `FORCE_VERIFYING_SIGNATURE=false`
-   
-   **下载方法**：
-   - 方法一：直接点击项目页面中的插件文件，然后点击 "Download" 按钮
-   - 方法二：使用Git命令克隆整个项目：`git clone https://github.com/yunqiqiliang/clickzetta_dify.git`
+#### 方法一：下载预构建插件包
 
-2. **自行构建插件包**（可选）:
-   ```bash
-   # 快速构建（推荐）
-   ./build.sh
-   
-   # 完整构建
-   ./scripts/build_and_sign.sh
+从本项目获取插件文件：
+- **标准版本**: `clickzetta_lakehouse.difypkg` - 遵循Dify官方标准，适用于大多数环境
+- **签名版本**: `clickzetta_lakehouse.signed.difypkg` - 适用于启用第三方签名验证的环境
+
+**获取方式**：
+- 直接下载：点击项目页面中的插件文件，然后点击 "Download" 按钮
+- 克隆项目：`git clone https://github.com/yunqiqiliang/clickzetta_dify.git`
+
+#### 方法二：自行构建插件包
+
+```bash
+# 构建标准版本（默认）
+./build.sh
+
+# 构建带签名的版本
+./build.sh --sign
+```
+
+**构建脚本功能**：
+- 🔍 自动验证配置文件
+- 📦 生成标准插件包
+- 🔐 可选生成签名版本
+- ✅ 内置签名验证测试
+
+#### 安装步骤
+
+1. **选择插件包**：
+   - 如果服务器禁用了签名验证：使用 `clickzetta_lakehouse.difypkg`
+   - 如果服务器启用了第三方签名验证：使用 `clickzetta_lakehouse.signed.difypkg`
+
+2. **服务器端配置**（仅签名版本需要）：
+   ```yaml
+   # docker-compose.override.yaml
+   version: '3.8'
+   services:
+     plugin_daemon:
+       environment:
+         THIRD_PARTY_SIGNATURE_VERIFICATION_ENABLED: "true"
+         THIRD_PARTY_SIGNATURE_VERIFICATION_PUBLIC_KEYS: "/app/storage/public_keys/clickzetta_server_keypair.public.pem"
    ```
-   详细构建说明请参考 [构建指南](docs/BUILD_GUIDE.md)
+   
+   上传公钥到：`docker/volumes/plugin_daemon/public_keys/`
 
-3. **安装到Dify**: 
+3. **上传安装**：
    - 登录 Dify 管理后台
    - 进入 "插件" → "安装插件" 页面
    - 选择 "本地上传" 方式
-   - 上传 `clickzetta_lakehouse.difypkg` 文件
+   - 上传选择的插件包文件
    - 等待安装完成
 
-4. **配置插件**: 在插件设置中配置 Clickzetta 连接参数（用户名、密码、实例等）
+4. **配置插件**：在插件设置中配置 Clickzetta 连接参数
 
-5. **开始使用**: 插件安装成功后即可在工作流中使用所有Clickzetta工具
+5. **开始使用**：插件安装成功后即可在工作流中使用所有Clickzetta工具
 
 
 ## 🛠️ 开发

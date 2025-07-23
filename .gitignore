@@ -142,6 +142,13 @@ test_simple*.py
 *.zip
 *.tar.gz
 
+# Cryptographic keys and signatures
+*.pem
+*.key
+*.sig
+*.private
+*.public
+
 # Environment variables
 .env.local
 .env.development
