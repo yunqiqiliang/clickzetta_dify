@@ -138,16 +138,14 @@ test_simple*.py
 *_temp.py
 
 # Package files
-*.difypkg
 *.zip
 *.tar.gz
 
-# Cryptographic keys and signatures
-*.pem
+# Cryptographic keys and signatures (keep public keys for server deployment)
+*.private.pem
 *.key
 *.sig
 *.private
-*.public
 
 # Environment variables
 .env.local
