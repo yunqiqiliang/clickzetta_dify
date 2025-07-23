@@ -13,7 +13,7 @@ import subprocess
 import hashlib
 import base64
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 
 class PluginSigner:
     def __init__(self, key_name="plugin_key"):
@@ -91,7 +91,7 @@ class PluginSigner:
                 "algorithm": "RSA-SHA256",
                 "signature": signature_b64,
                 "digest": digest,
-                "signed_at": datetime.utcnow().isoformat() + "Z",
+                "signed_at": datetime.now(timezone.utc).isoformat(),
                 "signer": self.key_name
             }
             

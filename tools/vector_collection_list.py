@@ -5,14 +5,14 @@ import json
 from dify_plugin import Tool
 from dify_plugin.entities.tool import ToolInvokeMessage
 from tools.lakehouse_connection import LakehouseConnection
+from tools.vector_tool_mixin import VectorToolMixin
 
-class VectorCollectionListTool(Tool):
+class VectorCollectionListTool(Tool, VectorToolMixin):
     """列出所有向量集合工具"""
     
     def _invoke(self, tool_parameters: dict[str, Any]) -> Generator[ToolInvokeMessage]:
         # 获取连接配置
         config = self._get_connection_config(tool_parameters)
-        schema = config.get("schema", "dify")
         
         try:
             # 获取连接
@@ -20,6 +20,19 @@ class VectorCollectionListTool(Tool):
             connection = conn_manager.get_connection(config)
             
             with connection.cursor() as cursor:
+                # 获取schema，如果工具参数中没有指定，则使用当前schema
+                schema = tool_parameters.get("schema")
+                if not schema:
+                    schema = self._get_current_schema(cursor)
+                # 验证schema是否存在
+                if not self._validate_schema(cursor, schema):
+                    yield self.create_text_message(f"❌ 数据库模式不存在：{schema}")
+                    yield self.create_json_message({
+                        "success": False,
+                        "error": f"数据库模式不存在：{schema}"
+                    })
+                    return
+                
                 # 首先获取所有表
                 cursor.execute(f"SHOW TABLES IN {schema}")
                 tables = cursor.fetchall()
@@ -149,15 +162,3 @@ class VectorCollectionListTool(Tool):
                 "error": str(e)
             })
     
-    def _get_connection_config(self, tool_parameters: dict[str, Any]) -> Dict[str, Any]:
-        """从工具参数中提取连接配置"""
-        # 优先使用工具参数，如果没有则使用提供商凭据
-        return {
-            "username": tool_parameters.get("username") or self.runtime.credentials.get("username"),
-            "password": tool_parameters.get("password") or self.runtime.credentials.get("password"),
-            "instance": tool_parameters.get("instance") or self.runtime.credentials.get("instance"),
-            "service": tool_parameters.get("service") or self.runtime.credentials.get("service", "api.clickzetta.com"),
-            "workspace": tool_parameters.get("workspace") or self.runtime.credentials.get("workspace", "quick_start"),
-            "vcluster": tool_parameters.get("vcluster") or self.runtime.credentials.get("vcluster", "default_ap"),
-            "schema": tool_parameters.get("schema") or self.runtime.credentials.get("schema", "dify"),
-        }

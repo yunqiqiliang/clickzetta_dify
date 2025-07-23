@@ -30,14 +30,27 @@
    **下载方法**：
    - 方法一：直接点击项目页面中的插件文件，然后点击 "Download" 按钮
    - 方法二：使用Git命令克隆整个项目：`git clone https://github.com/yunqiqiliang/clickzetta_dify.git`
-2. **安装到Dify**: 
+
+2. **自行构建插件包**（可选）:
+   ```bash
+   # 快速构建（推荐）
+   ./build.sh
+   
+   # 完整构建
+   ./scripts/build_and_sign.sh
+   ```
+   详细构建说明请参考 [构建指南](docs/BUILD_GUIDE.md)
+
+3. **安装到Dify**: 
    - 登录 Dify 管理后台
    - 进入 "插件" → "安装插件" 页面
    - 选择 "本地上传" 方式
    - 上传 `clickzetta_lakehouse.difypkg` 文件
    - 等待安装完成
-3. **配置插件**: 在插件设置中配置 Clickzetta 连接参数（用户名、密码、实例等）
-4. **开始使用**: 插件安装成功后即可在工作流中使用所有Clickzetta工具
+
+4. **配置插件**: 在插件设置中配置 Clickzetta 连接参数（用户名、密码、实例等）
+
+5. **开始使用**: 插件安装成功后即可在工作流中使用所有Clickzetta工具
 
 
 ## 🛠️ 开发
@@ -73,6 +86,7 @@ python tests/compatibility/test_sql_compatibility.py
 | `vector_collection_create` | 创建向量集合 | 创建新的向量表 |
 | `vector_collection_list` | 列出向量集合 | 查看所有向量集合 |
 | `vector_collection_delete` | 删除向量集合 | 删除向量集合及数据 |
+| `vector_collection_optimize` | 优化向量集合 | 使用指定集群优化向量表性能 |
 | `vector_insert` | 插入向量 | 批量插入向量数据 |
 | `vector_search` | 搜索向量 | 相似度搜索 |
 | `vector_delete` | 删除向量 | 删除指定向量 |
@@ -80,8 +94,10 @@ python tests/compatibility/test_sql_compatibility.py
 
 ## 📖 文档
 
+- [构建指南](docs/BUILD_GUIDE.md) - 如何构建和签名插件包
 - [安装指南](docs/DIFY_CLICKZETTA_PLUGIN_INSTALLATION_GUIDE.md) - 在Dify中安装和配置插件
 - [工具参考手册](docs/TOOL_REFERENCE.md) - 详细的工具使用说明
+- [优化工具使用示例](docs/OPTIMIZE_USAGE_EXAMPLE.md) - 向量集合优化工具详细说明
 - [详细使用指南](docs/DETAILED_README.md) - 完整的功能和使用示例
 - [部署说明](docs/DEPLOYMENT.md) - 部署和维护指南
 - [使用指南](docs/GUIDE.md) - 开发者使用指南

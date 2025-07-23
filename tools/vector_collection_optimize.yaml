@@ -1,0 +1,71 @@
+identity:
+  name: vector_collection_optimize
+  author: qiliang
+  label:
+    en_US: Optimize Vector Collection
+    zh_Hans: 优化向量集合
+    pt_BR: Otimizar Coleção Vetorial
+  description:
+    en_US: Optimize a vector collection using specified virtual cluster for better performance
+    zh_Hans: 使用指定的虚拟集群优化向量集合以获得更好的性能
+    pt_BR: Otimizar uma coleção vetorial usando cluster virtual especificado para melhor desempenho
+  icon: icon.svg
+  tags:
+    - vector
+    - optimize
+    - performance
+    - clickzetta
+    - lakehouse
+
+description:
+  human:
+    en_US: Optimize a vector collection using a dedicated virtual cluster for better query performance and storage efficiency
+    zh_Hans: 使用专用虚拟集群优化向量集合，提升查询性能和存储效率
+    pt_BR: Otimizar uma coleção vetorial usando cluster virtual dedicado para melhor desempenho de consulta e eficiência de armazenamento
+  llm: Optimize a vector collection by executing OPTIMIZE command on a specified GENERAL-type virtual cluster. This improves query performance and storage efficiency. The tool validates cluster availability and type before execution.
+
+parameters:
+  - name: collection_name
+    type: string
+    required: true
+    label:
+      en_US: Collection Name
+      zh_Hans: 集合名称
+      pt_BR: Nome da Coleção
+    human_description:
+      en_US: Name of the vector collection to optimize
+      zh_Hans: 要优化的向量集合名称
+      pt_BR: Nome da coleção vetorial para otimizar
+    llm_description: Name of the vector collection (table) that needs optimization
+    form: llm
+    
+  - name: optimize_vcluster
+    type: string
+    required: true
+    label:
+      en_US: Optimize Virtual Cluster
+      zh_Hans: 优化虚拟集群
+      pt_BR: Cluster Virtual de Otimização
+    human_description:
+      en_US: Name of the GENERAL-type virtual cluster to use for optimization operations (other types are invalid)
+      zh_Hans: 用于执行优化操作的通用类型(GENERAL)虚拟集群名称（其他类型无效）
+      pt_BR: Nome do cluster virtual do tipo GENERAL para usar nas operações de otimização (outros tipos são inválidos)
+    llm_description: Name of the GENERAL-type virtual cluster that will be used to run the optimize command. Only GENERAL type clusters can execute optimization operations - other cluster types will be rejected.
+    form: llm
+  - name: schema
+    type: string
+    required: false
+    label:
+      en_US: Schema
+      zh_Hans: 模式名称
+      pt_BR: Esquema
+    human_description:
+      en_US: Database schema name where the collection exists
+      zh_Hans: 集合所在的数据库模式名称
+      pt_BR: Nome do esquema do banco de dados onde a coleção existe
+    llm_description: The database schema name. If not specified, uses the result of select current_schema()
+    form: llm
+
+extra:
+  python:
+    source: tools/vector_collection_optimize.py

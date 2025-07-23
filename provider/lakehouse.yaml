@@ -83,6 +83,7 @@ tools:
   - tools/vector_collection_create.yaml
   - tools/vector_collection_delete.yaml
   - tools/vector_collection_list.yaml
+  - tools/vector_collection_optimize.yaml
   - tools/vector_delete.yaml
   - tools/vector_insert.yaml
   - tools/vector_search.yaml

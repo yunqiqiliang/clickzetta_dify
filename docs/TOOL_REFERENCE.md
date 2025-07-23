@@ -7,6 +7,7 @@
 | `vector_collection_create` | 创建向量集合 | JSON | 文本 + JSON |
 | `vector_collection_list` | 列出向量集合 | JSON | 文本 + JSON |
 | `vector_collection_delete` | 删除向量集合 | JSON | 文本 + JSON |
+| `vector_collection_optimize` | 优化向量集合 | JSON | 文本 + JSON |
 | `vector_insert` | 插入向量数据 | JSON | 文本 + JSON |
 | `vector_search` | 搜索相似向量 | JSON | 文本 + JSON |
 | `vector_delete` | 删除向量数据 | JSON | 文本 + JSON |
@@ -26,6 +27,7 @@
 - `id_type` (string): ID类型，默认"string"，可选"int"
 - `metadata_fields` (string): 元数据字段定义，格式："field1:TYPE,field2:TYPE"
 - `create_index` (boolean): 是否创建向量索引，默认true
+- `schema` (string): 数据库模式名称，默认使用current_schema()的结果
 
 **示例**:
 ```json
@@ -34,7 +36,8 @@
   "dimension": 1536,
   "id_type": "string",
   "metadata_fields": "title:STRING, category:STRING, created_at:TIMESTAMP",
-  "create_index": true
+  "create_index": true,
+  "schema": "production"
 }
 ```
 
@@ -54,12 +57,12 @@
 **功能**: 列出指定模式下的所有向量集合及其统计信息
 
 **可选参数**:
-- `schema` (string): 数据库模式名称，默认"public"
+- `schema` (string): 数据库模式名称，默认使用current_schema()的结果
 
 **示例**:
 ```json
 {
-  "schema": "dify"
+  "schema": "production"
 }
 ```
 
@@ -89,11 +92,15 @@
 - `collection_name` (string): 要删除的集合名称
 - `confirm` (boolean): 确认删除，必须为true
 
+**可选参数**:
+- `schema` (string): 数据库模式名称，默认使用current_schema()的结果
+
 **示例**:
 ```json
 {
   "collection_name": "old_embeddings",
-  "confirm": true
+  "confirm": true,
+  "schema": "production"
 }
 ```
 
@@ -106,7 +113,61 @@
 }
 ```
 
-### 4. vector_insert - 插入向量数据
+### 4. vector_collection_optimize - 优化向量集合
+
+**功能**: 使用指定的虚拟集群优化向量集合，提升查询和存储性能
+
+**必需参数**:
+- `collection_name` (string): 要优化的集合名称
+- `optimize_vcluster` (string): 用于执行优化操作的通用类型(GENERAL)虚拟集群名称（其他类型无效）
+
+**可选参数**:
+- `schema` (string): 数据库模式名称，默认使用current_schema()的结果
+
+**示例**:
+```json
+{
+  "collection_name": "document_embeddings",
+  "optimize_vcluster": "compute_cluster",
+  "schema": "production"
+}
+```
+
+**注意**: 连接参数（用户名、密码、实例等）从插件提供商配置中自动获取，无需在工具参数中指定。
+
+**输出**:
+```json
+{
+  "success": true,
+  "collection_name": "document_embeddings",
+  "schema": "dify",
+  "optimize_vcluster": "compute_cluster",
+  "original_vcluster": "default_ap",
+  "message": "向量集合优化成功完成"
+}
+```
+
+**工作流程**:
+1. 获取当前虚拟集群（`select current_vcluster()`）
+2. 验证优化虚拟集群是否存在且类型正确
+3. 切换到指定的优化虚拟集群
+4. 执行 `optimize schema.collection_name` 命令
+5. 切换回原始虚拟集群
+6. 返回优化结果
+
+**集群验证规则**:
+- 集群必须存在（通过 `desc vcluster` 命令验证）
+- 集群类型必须为 `GENERAL`（其他类型如COMPUTE、STREAM等无效）
+- 集群状态必须为 `RUNNING` 或 `SUSPENDED`
+
+**注意事项**:
+- **集群类型要求**: 只有通用类型(GENERAL)的虚拟集群能执行优化操作，其他类型会被拒绝
+- 优化虚拟集群应具有足够的计算资源
+- 优化过程可能需要较长时间，取决于数据量
+- 优化后查询性能和存储效率会得到提升
+- 系统会自动验证集群可用性，避免使用不合适的集群
+
+### 5. vector_insert - 插入向量数据
 
 **功能**: 向向量集合中插入一个或多个向量
 
@@ -119,6 +180,7 @@
 - `ids` (string): 向量ID列表，JSON数组格式
 - `metadata` (string): 元数据，JSON数组格式
 - `auto_id` (boolean): 是否自动生成ID，默认false
+- `schema` (string): 数据库模式名称，默认"dify"
 
 **示例**:
 ```json
@@ -155,6 +217,7 @@
 - `metric_type` (string): 距离度量类型，"cosine"或"l2"，默认"cosine"
 - `filter_expr` (string): 过滤表达式
 - `output_fields` (string): 输出字段列表，逗号分隔
+- `schema` (string): 数据库模式名称，默认"dify"
 
 **示例**:
 ```json
@@ -203,6 +266,7 @@
 **可选参数**:
 - `ids` (string): 要删除的向量ID列表，JSON数组格式
 - `filter_expr` (string): 删除条件表达式
+- `schema` (string): 数据库模式名称，默认"dify"
 
 **注意**: `ids` 和 `filter_expr` 至少提供一个
 
@@ -276,6 +340,23 @@
 - 使用合适的批量大小
 - 避免过于复杂的过滤条件
 
+## Schema 验证
+
+所有向量工具在执行操作前都会验证指定的数据库模式是否存在：
+
+1. **验证机制**: 使用 `desc schema schema_name` 命令检查模式存在性
+2. **错误处理**: 如果模式不存在，工具会立即返回错误，不会执行后续操作
+3. **默认行为**: 如果未指定schema参数，使用 `select current_schema()` 的结果作为默认值
+
+**验证失败示例**:
+```json
+{
+  "success": false,
+  "error": "数据库模式不存在：production",
+  "collection_name": "document_embeddings"
+}
+```
+
 ## 错误处理
 
 所有工具都会返回标准的错误格式：
@@ -293,3 +374,4 @@
 - 参数错误：输入参数格式或值错误
 - 数据错误：向量维度不匹配或数据格式错误
 - 权限错误：没有足够的数据库权限
+- 模式错误：指定的数据库模式不存在

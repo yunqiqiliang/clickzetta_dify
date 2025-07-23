@@ -95,6 +95,17 @@ parameters:
     zh_Hans: 要返回的额外字段（逗号分隔）
   llm_description: Comma-separated list of additional fields to include in results
   form: form
+- name: schema
+  type: string
+  required: false
+  label:
+    en_US: Schema
+    zh_Hans: 模式名称
+  human_description:
+    en_US: Database schema name where the collection exists
+    zh_Hans: 集合所在的数据库模式名称
+  llm_description: The database schema name. If not specified, uses the result of select current_schema()
+  form: llm
 extra:
   python:
     source: tools/vector_search.py

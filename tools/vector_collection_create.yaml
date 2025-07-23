@@ -81,6 +81,17 @@ parameters:
       zh_Hans: "是否创建 HNSW 索引用于向量搜索"
     llm_description: "Whether to automatically create HNSW index on the vector column"
     form: form
+  - name: schema
+    type: string
+    required: false
+    label:
+      en_US: Schema
+      zh_Hans: 模式名称
+    human_description:
+      en_US: "Database schema name where the collection will be created"
+      zh_Hans: "创建集合的数据库模式名称"
+    llm_description: "The database schema name. If not specified, uses the result of select current_schema()"
+    form: llm
 extra:
   python:
     source: tools/vector_collection_create.py
