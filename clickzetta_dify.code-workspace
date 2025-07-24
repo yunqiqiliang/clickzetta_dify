@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "../dify"
+		},
+		{
+			"path": "../dify-plugins"
 		}
 	]
 }
